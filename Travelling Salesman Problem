@@ -1,0 +1,36 @@
+class TSP:
+  def __init__(self,graph):
+    self.completed=[0,0,0,0,0,0,0,0,0,0]
+    self.data=graph
+    self.cost=0
+    self.n=4
+  def mincost(self,city):
+    if (city!=None):
+      self.completed[city]=1
+      print(city+1,"--->",end="")
+      ncity=self.least(city)
+      if(ncity==999):
+        ncity=0
+        print(ncity+1,end="")
+        self.cost+=self.data[city][ncity]
+        return
+      self.mincost(ncity)
+    return
+  def least(self,c):
+    nc=999
+    min=999
+    for i in range(self.n):
+      if((self.data[c][i]!=0)and(self.completed[i]==0)):
+        if((self.data[c][i]+self.data[i][c])<min):
+          min=self.data[i][c]+self.data[c][i]
+          kmin=self.data[c][i]
+          nc=i
+    if(min!=999):
+      self.cost+=kmin
+    return nc
+
+graph=[[0, 10, 15, 20], [5, 0, 9, 10],[6, 13, 0, 12], [8, 8, 9, 0]] 
+g=TSP(graph)
+print("The path is:")
+g.mincost(0)
+print("\nMinimum cost is",g.cost)
